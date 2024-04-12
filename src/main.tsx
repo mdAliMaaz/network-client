@@ -1,14 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { ThemeProvider } from './components/custom/ThemeProvider.tsx'
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { ThemeProvider } from "./components/custom/ThemeProvider.tsx";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ThemeProvider defaultTheme='dark' storageKey='app-theme'>
-    <App />
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <BrowserRouter>
+    <ThemeProvider defaultTheme="dark" storageKey="app-theme">
+      <App />
     </ThemeProvider>
-      
-  </React.StrictMode>,
-)
+  </BrowserRouter>
+);
