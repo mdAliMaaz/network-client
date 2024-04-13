@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Actions from "./Actions";
 import Comments from "./Comments";
+import CreateComment from "./CreateComment";
 
 const PostDetailsCard = () => {
   return (
@@ -28,6 +29,7 @@ const PostDetailsCard = () => {
         className="w-full mt-2 rounded-lg"
       />
       <Actions />
+      <CreateComment />
       <div className="flex flex-col">
         <Comments />
         <Comments />
