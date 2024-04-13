@@ -31,14 +31,11 @@ const PostDetailsCard = () => {
       <Actions />
       <CreateComment />
       <div className="flex flex-col">
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
+        <Comments
+          comment="I really need someone who can fix this shit."
+          createdAt="5d"
+          userProfileUrl="https://avatars.githubusercontent.com/u/130007307?v=4"
+        />
       </div>
     </div>
   );

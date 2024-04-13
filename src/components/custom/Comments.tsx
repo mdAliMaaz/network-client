@@ -1,21 +1,34 @@
+import { Ellipsis } from "lucide-react";
 import Actions from "./Actions";
 
-const Comments = () => {
+interface CommentsProps {
+  userProfileUrl: string;
+  createdAt: string;
+  comment: string;
+}
+
+const Comments = (props: CommentsProps) => {
   return (
-    <div className="flex flex-col items-start border-b">
-      <div className="flex items-center w-full p-2 my-2 space-x-5">
-        <div className="w-10 h-10">
-          <img
-            src="https://pbs.twimg.com/profile_images/1700165991295307776/c9ULDyMW_400x400.jpg"
-            alt=""
-            className="w-full rounded-full "
-          />
+    <div className="flex items-center justify-between border-b">
+      <div className="flex flex-col items-start">
+        <div className="flex items-center w-full p-2 my-2 space-x-5">
+          <div className="w-10 h-10">
+            <img
+              src={props.userProfileUrl}
+              alt=""
+              className="w-full rounded-full "
+            />
+          </div>
+          <div>
+            <p>{props.comment}</p>
+          </div>
         </div>
-        <div>
-          <p>This is the wonder full post i am reallly loving it.</p>
-        </div>
+        <Actions />
       </div>
-      <Actions />
+      <div className="flex items-center space-x-3">
+        <span>{props.createdAt}</span>
+        <Ellipsis />
+      </div>
     </div>
   );
 };

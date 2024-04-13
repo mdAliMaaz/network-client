@@ -12,10 +12,13 @@ const Actions = () => {
 
   return (
     <div className="flex items-center p-2 space-x-3">
-      <Heart className={cn(liked ? "text-red-500" : "")} onClick={handleLike} />
-      <MessageCircle />
-      <Repeat2 />
-      <ExternalLink />
+      <Heart
+        className={`${cn(liked ? "text-red-500" : "")} cursor-pointer`}
+        onClick={handleLike}
+      />
+      <MessageCircle className="cursor-pointer " />
+      <Repeat2 className="cursor-pointer " />
+      <ExternalLink className="cursor-pointer " />
     </div>
   );
 };
