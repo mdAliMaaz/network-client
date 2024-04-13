@@ -7,8 +7,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "../ui/use-toast";
 
 const Hero = () => {
+  const { toast } = useToast();
+
+  const handelCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const profileUrl: any = new URL(e.view.document.location.href);
+    navigator.clipboard
+      .writeText(profileUrl)
+      .then(() => toast({ title: "Copyed to clipboard" }));
+  };
+
   return (
     <div className="p-2">
       <div className="flex items-center justify-between">
@@ -37,7 +47,7 @@ const Hero = () => {
               <DropdownMenuTrigger>
                 <CircleEllipsis />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent onClick={handelCopy}>
                 <DropdownMenuItem className="flex items-center justify-between ">
                   Copy <Copy className="w-3 h-3" />
                 </DropdownMenuItem>
