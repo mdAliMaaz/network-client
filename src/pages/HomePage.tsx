@@ -15,6 +15,7 @@ const HomePage = () => {
         username="Mohammed Ali Maaz"
         description="It's my birthday🥳Want to do something that will give peace and happiness. What should I do?"
         imageUrl="https://pbs.twimg.com/media/GK-rPymXQAALf7Y?format=jpg&name=large"
+        postId="1"
       />
     </Layout>
   );
