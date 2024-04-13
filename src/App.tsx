@@ -7,7 +7,7 @@ function App() {
     <Routes>
       <Route path="/" element={<h1>Landing page.</h1>} />
       <Route path="/:username" element={<HomePage />} />
-      <Route path="/profile" element={<HomePage />} />
+      <Route path="/profile" element={<h1>Profile</h1>} />
       <Route path="/:username/post/:id" element={<PostDetailsPage />} />
     </Routes>
   );

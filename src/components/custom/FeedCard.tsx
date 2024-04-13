@@ -21,35 +21,37 @@ const FeedCard = (props: FeedCardProps) => {
   };
 
   return (
-    <Link to={`post/${props.postId}`} className="w-full my-2 border rounded-md">
-      <div className="flex items-center p-2 space-x-3">
-        <Avatar>
-          <AvatarImage src={props.avatar} />
-          <AvatarFallback>profile</AvatarFallback>
-        </Avatar>
-        <div>
-          <h3>{props.username}</h3>
-          <p className="text-sm text-gray-500">{props.description}</p>
+    <div className="w-full border rounded-lg">
+      <Link to={`post/${props.postId}`}>
+        <div className="flex items-center p-2 space-x-3">
+          <Avatar>
+            <AvatarImage src={props.avatar} />
+            <AvatarFallback>profile</AvatarFallback>
+          </Avatar>
+          <div>
+            <h3>{props.username}</h3>
+            <p className="text-sm text-gray-500">{props.description}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="m-1 w-fit">
-        <img
-          src={props.imageUrl}
-          alt="post"
-          className="mx-auto rounded-xl max-h-96"
-        />
-      </div>
-      <div className="flex items-center p-2 space-x-3">
-        <Heart
-          className={cn(liked ? "text-red-500" : "") }
-          onClick={handleLike}
-        />
-        <MessageCircle />
-        <Repeat2 />
-        <ExternalLink />
-      </div>
-    </Link>
+        <div className="m-1 w-fit">
+          <img
+            src={props.imageUrl}
+            alt="post"
+            className="mx-auto rounded-xl max-h-96"
+          />
+        </div>
+        <div className="flex items-center p-2 space-x-3">
+          <Heart
+            className={cn(liked ? "text-red-500" : "")}
+            onClick={handleLike}
+          />
+          <MessageCircle />
+          <Repeat2 />
+          <ExternalLink />
+        </div>
+      </Link>
+    </div>
   );
 };
 

@@ -1,7 +1,14 @@
 import Layout from "@/components/custom/Layout";
+import PostDetailsCard from "@/components/custom/PostDetailsCard";
 
 const PostDetailsPage = () => {
-  return <Layout>Post Page</Layout>;
+  return (
+    <Layout>
+      <div>
+        <PostDetailsCard />
+      </div>
+    </Layout>
+  );
 };
 
 export default PostDetailsPage;
