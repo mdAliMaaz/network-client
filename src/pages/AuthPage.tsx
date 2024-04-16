@@ -7,7 +7,6 @@ import { useRecoilValue } from "recoil";
 const AuthPage = () => {
   const authState = useRecoilValue(authPageState);
 
-  console.log(authState);
   return (
     <Layout>
       <div className="flex items-center justify-center h-screen">

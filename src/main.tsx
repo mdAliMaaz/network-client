@@ -3,7 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { ThemeProvider } from "./components/custom/ThemeProvider.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
