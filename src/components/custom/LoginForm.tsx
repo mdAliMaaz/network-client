@@ -1,5 +1,4 @@
 import { authPageState } from "@/atoms/authPageAtom";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +12,10 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import useToast from "@/hooks/useToast";
+import useLocalStroage from "@/hooks/useLocalStroage";
+import { axios } from "@/axios";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormInput {
   email: string;
@@ -21,12 +24,16 @@ interface LoginFormInput {
 
 export function LoginForm() {
   const setAuthState = useSetRecoilState(authPageState);
+  const navigate = useNavigate();
+
   const [input, setInput] = useState<LoginFormInput>({
     email: "",
     password: "",
   });
 
-  const toast = useToast("login up complete");
+  const { setValue } = useLocalStroage();
+
+  const toast = useToast();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -34,12 +41,22 @@ export function LoginForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { data } = await axios.post(
-      "http://localhost:8000/api/v1/users/signin",
-      input,
-      { withCredentials: true }
-    );
-    toast();
+
+    try {
+      const { data } = await axios.post("/users/signin", input, {
+        withCredentials: true,
+      });
+
+      if (data?.message) {
+        setValue("network-user", data?.data);
+        toast(data?.message);
+        navigate(`/${data.data.username}`);
+      }
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast(error.response?.data?.error);
+      }
+    }
   }
   return (
     <form className="w-full max-w-sm m-auto" onSubmit={handleSubmit}>

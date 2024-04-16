@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
-const useToast = (message: string) => {
-  return () => toast(message);
+const useToast = () => {
+  return (message: string) => toast(message);
 };
 
 export default useToast;

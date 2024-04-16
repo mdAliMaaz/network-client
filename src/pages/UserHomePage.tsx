@@ -3,7 +3,7 @@ import Hero from "@/components/custom/Hero";
 import Layout from "@/components/custom/Layout";
 import { ModeToggle } from "@/components/custom/ModeToggle";
 
-const HomePage = () => {
+const UserHomePage = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center w-full p-2">
@@ -21,4 +21,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default UserHomePage;
