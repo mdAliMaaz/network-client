@@ -5,7 +5,8 @@ import { useRecoilValue } from "recoil";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { SquareArrowLeft } from "lucide-react";
 interface IUser {
   _id: string;
   name: string;
@@ -28,6 +29,8 @@ const ProfilePage = () => {
     bio: user.bio || "",
   });
 
+  const navigate = useNavigate();
+
   function handleChange(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
@@ -39,7 +42,7 @@ const ProfilePage = () => {
   }
   return (
     <Layout>
-      <div className="flex flex-col p-1 space-x-10 items-startems-center space md:items-center md:flex-row ">
+      <div className="flex flex-col items-center p-1 md:space-x-10 md:items-center md:flex-row ">
         <div className="w-1/3 p-1 border rounded-full md:w-1/3 border-primary">
           <img
             src={user.profilePic}
@@ -47,7 +50,7 @@ const ProfilePage = () => {
             className="w-full rounded-full"
           />
         </div>
-        <div className="flex flex-col justify-center w-full gap-1">
+        <div className="flex flex-col items-center justify-center w-full gap-1">
           <h1 className="text-2xl capitalize md:text-4xl">{user.name}</h1>
           <p className="text-gray-600">{user.email}</p>
           <input
@@ -64,7 +67,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-2 mt-2 md:gap-4">
+        <div className="flex flex-col gap-4 mt-2 ">
           <Input
             name="name"
             onChange={handleChange}
@@ -92,6 +95,9 @@ const ProfilePage = () => {
           <Button type="submit">Save</Button>
         </div>
       </form>
+      <Button onClick={() => navigate(-1)} className="mt-5 ">
+        <SquareArrowLeft />
+      </Button>
     </Layout>
   );
 };
