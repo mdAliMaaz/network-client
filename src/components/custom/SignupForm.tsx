@@ -1,4 +1,5 @@
 import { authPageState } from "@/atoms/authPageAtom";
+import { axios } from "@/axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,11 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useToast from "@/hooks/useToast";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 
 interface SignUpFormInput {
-  fullname: string;
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -24,12 +26,13 @@ export function SignupForm() {
   const setAuthState = useSetRecoilState(authPageState);
 
   const [input, setInput] = useState<SignUpFormInput>({
-    fullname: "",
+    name: "",
     username: "",
     password: "",
     email: "",
   });
-  const toast = useToast("sign up complete");
+
+  const toast = useToast();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -37,7 +40,19 @@ export function SignupForm() {
 
   async function handelSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    toast();
+    try {
+      const { data } = await axios.post("/users/signup", input);
+      console.log(data);
+      if (data.message) {
+        toast(data.message);
+      }
+      toast("signup successfull");
+      setAuthState("login");
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast(error.response?.data?.error);
+      }
+    }
   }
 
   return (
@@ -54,8 +69,8 @@ export function SignupForm() {
               type="text"
               placeholder="Bruce wayne"
               required
-              name="fullname"
-              value={input.fullname}
+              name="name"
+              value={input.name}
               onChange={handleChange}
             />
           </div>
