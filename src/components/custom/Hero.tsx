@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { CircleEllipsis, Copy, LogOut } from "lucide-react";
+import { CircleEllipsis, CircleUser, Copy, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
-
 import { axios } from "@/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ const Hero = () => {
       });
       if (data.message) {
         toast(data.message);
-        localStorage.removeItem('network-user');
+        localStorage.removeItem("network-user");
         navigate("/auth");
       }
     } catch (error: unknown) {
@@ -59,8 +58,15 @@ const Hero = () => {
               <AvatarFallback>profile</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent onClick={handleLogout}>
+          <DropdownMenuContent>
             <DropdownMenuItem className="flex items-center justify-between ">
+              <CircleUser />
+              <Link to={"/profile"}>Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="flex items-center justify-between "
+              onClick={handleLogout}
+            >
               <LogOut className="w-4 h-4 mr-2" />
               <span>Log out</span>
             </DropdownMenuItem>

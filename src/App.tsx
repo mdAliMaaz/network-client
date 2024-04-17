@@ -5,6 +5,7 @@ import AuthPage from "./pages/AuthPage";
 import { useRecoilValue } from "recoil";
 import { userState } from "./atoms/userAtom";
 import ProtectedRoute from "./components/custom/ProtectedRoute";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const user = useRecoilValue(userState);
@@ -26,7 +27,9 @@ function App() {
         path="/profile"
         element={
           <ProtectedRoute>
-            <h1>Profile</h1>
+            <h1>
+              <ProfilePage />
+            </h1>
           </ProtectedRoute>
         }
       />
@@ -46,7 +49,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      
     </Routes>
   );
 }
