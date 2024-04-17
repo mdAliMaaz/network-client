@@ -10,6 +10,10 @@ function App() {
   return (
     <Routes>
       <Route
+        path="/"
+        element={user ? <Navigate to={`/${user.username}`} /> : <AuthPage />}
+      />
+      <Route
         path="/auth"
         element={user ? <Navigate to={`/${user.username}`} /> : <AuthPage />}
       />
