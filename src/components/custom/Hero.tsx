@@ -11,11 +11,13 @@ import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
 import { axios } from "@/axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { userState } from "@/atoms/userAtom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userProfileState, userState } from "@/atoms/userAtom";
 
 const Hero = () => {
   const setUser = useSetRecoilState(userState);
+
+  const user = useRecoilValue(userProfileState);
 
   const navigate = useNavigate();
   const toast = useToast();
@@ -50,16 +52,16 @@ const Hero = () => {
       <div className="flex items-center justify-between">
         <div className="flex flex-col justify-center gap-1">
           <h4 className="text-3xl font-medium capitalize trackmeing-tight scroll-m-20">
-            Mohammed ali maaz
+            {user.name}
           </h4>
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
-            maaz@2907
+            {user.username}
           </Badge>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={user?.profilePic?.url} />
               <AvatarFallback>profile</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
@@ -79,7 +81,8 @@ const Hero = () => {
         </DropdownMenu>
       </div>
       <div className="my-10">
-        <p>CEO at Vercel</p>
+        {user.bio && <p>{user.bio}</p>}
+
         <div className="flex items-center justify-between">
           <div className="flex space-x-2 text-gray-500">
             <span>3.9k following</span>
