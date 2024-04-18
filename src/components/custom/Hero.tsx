@@ -11,8 +11,12 @@ import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
 import { axios } from "@/axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "@/atoms/userAtom";
 
 const Hero = () => {
+  const setUser = useSetRecoilState(userState);
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -30,7 +34,8 @@ const Hero = () => {
       });
       if (data.message) {
         toast(data.message);
-        localStorage.removeItem("network-user");
+
+        setUser("");
         navigate("/auth");
       }
     } catch (error: unknown) {
