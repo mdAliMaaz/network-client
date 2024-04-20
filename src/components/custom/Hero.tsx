@@ -49,10 +49,10 @@ const Hero = () => {
       <div className="flex items-center justify-between">
         <div className="flex flex-col justify-center gap-1">
           <h4 className="text-3xl font-medium capitalize trackmeing-tight scroll-m-20">
-            {user.name}
+            {user?.name}
           </h4>
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
-            {user.username}
+            {user?.username}
           </Badge>
         </div>
         <DropdownMenu>
@@ -78,7 +78,7 @@ const Hero = () => {
         </DropdownMenu>
       </div>
       <div className="my-10">
-        {user.bio && <p>{user.bio}</p>}
+        {user?.bio && <p>{user.bio}</p>}
 
         <div className="flex items-center justify-between">
           <div className="flex space-x-2 text-gray-500">

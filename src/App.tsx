@@ -13,7 +13,10 @@ import { useRecoilState } from "recoil";
 function App() {
   const [user, setUser] = useRecoilState(userState);
 
-  useEffect(() => {
+const localUser = localStorage.getItem("network-user");
+
+useEffect(() => {
+  if (localUser) {
     (async function fetchUser() {
       try {
         const response = await axios.get("/users/profile", {
@@ -26,45 +29,43 @@ function App() {
         }
       }
     })();
-  }, []);
-  return (
-    <Routes>
-      <Route
-        path="/auth"
-        element={user ? <Navigate to={`/${user.username}`} /> : <AuthPage />}
-      />
-      <Route
-        path="/"
-        element={user ? <Navigate to={`/${user.username}`} /> : <AuthPage />}
-      />
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <h1>
-              <ProfilePage />
-            </h1>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/:username"
-        element={
-          <ProtectedRoute>
-            <UserHomePage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/:username/post/:id"
-        element={
-          <ProtectedRoute>
-            <PostDetailsPage />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
-  );
+  }
+}, []);
+
+return (
+  <Routes>
+    <Route
+      path="/"
+      element={
+        <ProtectedRoute>
+          <UserHomePage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/auth"
+      element={user ? <Navigate to={`/`} /> : <AuthPage />}
+    />
+    <Route
+      path="/profile"
+      element={
+        <ProtectedRoute>
+          <h1>
+            <ProfilePage />
+          </h1>
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/:username/post/:id"
+      element={
+        <ProtectedRoute>
+          <PostDetailsPage />
+        </ProtectedRoute>
+      }
+    />
+  </Routes>
+);
 }
 
 export default App;

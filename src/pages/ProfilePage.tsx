@@ -30,10 +30,10 @@ const ProfilePage = () => {
   const toast = useToast();
 
   const [input, setInput] = useState<Partial<IUser>>({
-    name: user.name || "",
-    username: user.username || "",
-    email: user.email || "",
-    bio: user.bio || "",
+    name: user?.name,
+    username: user?.username,
+    email: user?.email,
+    bio: user?.bio,
   });
 
   const [loading, setLoading] = useState(false);
@@ -107,8 +107,6 @@ const ProfilePage = () => {
       }
     }
   }
-
-
 
   return (
     <Layout>
@@ -189,7 +187,7 @@ const ProfilePage = () => {
       </div>
 
       <Button type="button" className="mt-5 ">
-        <Link to={`/${user.name}`}>
+        <Link to={`/`}>
           <SquareArrowLeft />
         </Link>
       </Button>

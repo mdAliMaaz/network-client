@@ -1,5 +1,5 @@
 import { axios } from "@/axios";
-import { atom, useRecoilState } from "recoil";
+import { atom } from "recoil";
 
 interface IUser {
   _id: string;
@@ -13,15 +13,9 @@ interface IUser {
   isFrozen: boolean;
 }
 
-export const userState = atom({
+export const userState = atom<IUser | null>({
   key: "userState",
-  default: {
-    name: "",
-    username: "",
-    email: "",
-    bio: "",
-    profilePic: { url: "", public_id: "" },
-  },
+  default: null,
   effects: [
     ({ onSet, setSelf }) => {
       onSet(() => {
@@ -38,13 +32,6 @@ export const userState = atom({
   ],
 });
 
-export const useUserState = () => {
-  const [user, setUser] = useRecoilState(userState);
 
-  const updateUser = (newUser: IUser) => {
-    setUser(newUser);
-  };
-  return { user, updateUser };
-};
 
 

@@ -55,7 +55,7 @@ export function LoginForm() {
         setLoading(false);
 
         toast(data?.message);
-        navigate(`/${data.data.username}`);
+        navigate(`/`);
       }
     } catch (error: unknown) {
       setLoading(false);
