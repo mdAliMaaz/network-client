@@ -17,11 +17,7 @@ function App() {
       />
       <Route
         path="/"
-        element={
-          <ProtectedRoute>
-            <h1>Home</h1>
-          </ProtectedRoute>
-        }
+        element={user ? <Navigate to={`/${user.username}`} /> : <AuthPage />}
       />
       <Route
         path="/profile"

@@ -97,11 +97,13 @@ export function LoginForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="flex items-center w-full space-x-3">
-            <p>
-            Sign in
-            </p>
-           {loading && <Loading/>}
+          <Button
+            disabled={loading}
+            type="submit"
+            className="flex items-center w-full space-x-3"
+          >
+            <p>Sign in</p>
+            {loading && <Loading />}
           </Button>
         </CardFooter>
         <CardFooter>
@@ -112,7 +114,6 @@ export function LoginForm() {
               type="button"
               variant={"link"}
               className="w-full"
-              disabled={loading}
             >
               Sign up
             </Button>
