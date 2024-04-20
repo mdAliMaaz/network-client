@@ -14,6 +14,7 @@ import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
+import Loading from "./Loading";
 
 interface SignUpFormInput {
   name: string;
@@ -24,6 +25,7 @@ interface SignUpFormInput {
 
 export function SignupForm() {
   const setAuthState = useSetRecoilState(authPageState);
+  const [loading, setLoading] = useState(false);
 
   const [input, setInput] = useState<SignUpFormInput>({
     name: "",
@@ -41,14 +43,16 @@ export function SignupForm() {
   async function handelSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post("/users/signup", input);
-      console.log(data);
       if (data.message) {
         toast(data.message);
       }
+      setLoading(false);
       toast("signup successfull");
       setAuthState("login");
     } catch (error: unknown) {
+      setLoading(false);
       if (error instanceof AxiosError) {
         toast(error.response?.data?.error);
       }
@@ -91,7 +95,7 @@ export function SignupForm() {
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="batman@example.com"
               required
               name="email"
               value={input.email}
@@ -111,8 +115,9 @@ export function SignupForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">
-            Sign in
+          <Button disabled={loading} type="submit" className="full">
+            <span>Sign up</span>
+            {loading && <Loading />}
           </Button>
         </CardFooter>
         <CardFooter>

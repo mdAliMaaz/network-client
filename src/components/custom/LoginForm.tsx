@@ -97,12 +97,8 @@ export function LoginForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button
-            disabled={loading}
-            type="submit"
-            className="flex items-center w-full space-x-3"
-          >
-            <p>Sign in</p>
+          <Button disabled={loading} type="submit" className="w-full ">
+            <span>Sign in</span>
             {loading && <Loading />}
           </Button>
         </CardFooter>

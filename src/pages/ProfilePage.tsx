@@ -1,7 +1,6 @@
-import { userProfileState } from "@/atoms/userAtom";
+import { userState } from "@/atoms/userAtom";
 import Layout from "@/components/custom/Layout";
 import { Button } from "@/components/ui/button";
-import { useRecoilValue } from "recoil";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
@@ -9,6 +8,10 @@ import { Link } from "react-router-dom";
 import { SquareArrowLeft } from "lucide-react";
 import { axios } from "@/axios";
 import useToast from "@/hooks/useToast";
+import { AxiosError } from "axios";
+import Loading from "@/components/custom/Loading";
+import { useRecoilState } from "recoil";
+
 interface IUser {
   _id: string;
   name: string;
@@ -22,8 +25,10 @@ interface IUser {
 }
 
 const ProfilePage = () => {
-  const user = useRecoilValue(userProfileState);
-  const toast =  useToast();
+  const [user, setUser] = useRecoilState(userState);
+
+  const toast = useToast();
+
   const [input, setInput] = useState<Partial<IUser>>({
     name: user.name || "",
     username: user.username || "",
@@ -31,9 +36,11 @@ const ProfilePage = () => {
     bio: user.bio || "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const [files, setFiles] = useState<any>();
-  
-  const [profilePreview, seetProfilePreview] = useState<any>(null);
+
+  const [profilePreview, setProfilePreview] = useState<any>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -48,32 +55,61 @@ const ProfilePage = () => {
       setFiles(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        seetProfilePreview(reader.result);
+        setProfilePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
   }
-  
-async  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const response = await axios.patch('/users/update',{input},{withCredentials: true});
-    toast(response.data.message)
-  }
-  
-  async function handleImageUpload(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
 
-    if (files) {
-      if (profilePreview) {
-        const formData = new FormData();
-        formData.append("profile", files);
-        const response = await axios.post("/images/uploadSingle", formData, {
-          withCredentials: true,
-        });
-        toast(response.data.message)
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    try {
+      setLoading(true);
+      e.preventDefault();
+      const response = await axios.patch(
+        "/users/update",
+        { input },
+        { withCredentials: true }
+      );
+      setUser(response.data.data);
+      setLoading(false);
+      toast(response.data.message);
+    } catch (error: unknown) {
+      setLoading(false);
+      if (error instanceof AxiosError) {
+        toast(error.response?.data?.error);
       }
     }
   }
+
+  async function handleImageUpload(e: React.FormEvent<HTMLFormElement>) {
+    try {
+      setLoading(true);
+      e.preventDefault();
+
+      if (files) {
+        if (profilePreview) {
+          const formData = new FormData();
+          formData.append("profile", files);
+          const response = await axios.post("/images/uploadSingle", formData, {
+            withCredentials: true,
+          });
+          setUser(response.data);
+          setProfilePreview("");
+          setLoading(false);
+          toast(response.data.message);
+        }
+      }
+    } catch (error: unknown) {
+      setLoading(false);
+
+      if (error instanceof AxiosError) {
+        toast(error.response?.data?.error);
+      }
+    }
+  }
+
+
+
   return (
     <Layout>
       <div>
@@ -83,7 +119,7 @@ async  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         >
           <div className="w-1/3 p-1 border rounded-full md:w-1/3 border-primary">
             <img
-              src={profilePreview || user.profilePic.url}
+              src={profilePreview || user?.profilePic?.url}
               alt="profile"
               className="w-full rounded-full"
             />
@@ -106,11 +142,13 @@ async  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
               </label>
             </Button>
             <Button
+              disabled={loading}
               type="submit"
-              variant={"secondary"}
+              variant={"outline"}
               className="w-1/2 md:w-full"
             >
-              save
+              <span>save</span>
+              {loading && <Loading />}
             </Button>
           </div>
         </form>
@@ -122,27 +160,30 @@ async  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
               name="name"
               onChange={handleChange}
               placeholder="name"
-              value={input.name}
+              value={input?.name}
             />
             <Input
               name="username"
               onChange={handleChange}
               placeholder="username"
-              value={input.username}
+              value={input?.username}
             />
             <Input
               name="email"
               onChange={handleChange}
               placeholder="email"
-              value={input.email}
+              value={input?.email}
             />
             <Textarea
               name="bio"
               onChange={handleChange}
               placeholder="bio..."
-              value={input.bio}
+              value={input?.bio}
             />
-            <Button type="submit">Save</Button>
+            <Button disabled={loading} type="submit">
+              <span>Save</span>
+              {loading && <Loading />}
+            </Button>
           </div>
         </form>
       </div>

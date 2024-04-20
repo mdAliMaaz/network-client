@@ -11,13 +11,11 @@ import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
 import { axios } from "@/axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userProfileState, userState } from "@/atoms/userAtom";
+import { userState } from "@/atoms/userAtom";
+import { useRecoilState } from "recoil";
 
 const Hero = () => {
-  const setUser = useSetRecoilState(userState);
-
-  const user = useRecoilValue(userProfileState);
+  const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
   const toast = useToast();
@@ -37,7 +35,6 @@ const Hero = () => {
       if (data.message) {
         toast(data.message);
         localStorage.removeItem("network-user");
-        setUser("");
         navigate("/auth");
       }
     } catch (error: unknown) {
