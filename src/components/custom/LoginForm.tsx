@@ -16,6 +16,7 @@ import useLocalStroage from "@/hooks/useLocalStroage";
 import { axios } from "@/axios";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 interface LoginFormInput {
   email: string;
@@ -25,6 +26,7 @@ interface LoginFormInput {
 export function LoginForm() {
   const setAuthState = useSetRecoilState(authPageState);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [input, setInput] = useState<LoginFormInput>({
     email: "",
@@ -43,16 +45,21 @@ export function LoginForm() {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post("/users/signin", input, {
         withCredentials: true,
       });
 
       if (data?.message) {
         setValue("network-user", data?.data);
+        setLoading(false);
+
         toast(data?.message);
         navigate(`/${data.data.username}`);
       }
     } catch (error: unknown) {
+      setLoading(false);
+
       if (error instanceof AxiosError) {
         toast(error.response?.data?.error);
       }
@@ -90,8 +97,11 @@ export function LoginForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="flex items-center w-full space-x-3">
+            <p>
             Sign in
+            </p>
+           {loading && <Loading/>}
           </Button>
         </CardFooter>
         <CardFooter>
@@ -102,6 +112,7 @@ export function LoginForm() {
               type="button"
               variant={"link"}
               className="w-full"
+              disabled={loading}
             >
               Sign up
             </Button>

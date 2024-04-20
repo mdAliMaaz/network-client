@@ -36,7 +36,7 @@ const Hero = () => {
       });
       if (data.message) {
         toast(data.message);
-
+        localStorage.removeItem("network-user");
         setUser("");
         navigate("/auth");
       }
