@@ -42,10 +42,7 @@ return (
         </ProtectedRoute>
       }
     />
-    <Route
-      path="/auth"
-      element={user ? <Navigate to={`/`} /> : <AuthPage />}
-    />
+    <Route path="/auth" element={user ? <Navigate to={`/`} /> : <AuthPage />} />
     <Route
       path="/profile"
       element={
@@ -57,7 +54,7 @@ return (
       }
     />
     <Route
-      path="/:username/post/:id"
+      path="/post/:id"
       element={
         <ProtectedRoute>
           <PostDetailsPage />

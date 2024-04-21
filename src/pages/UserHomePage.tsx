@@ -1,3 +1,4 @@
+import CreatePost from "@/components/custom/CreatePost";
 import FeedCard from "@/components/custom/FeedCard";
 import Hero from "@/components/custom/Hero";
 import Layout from "@/components/custom/Layout";
@@ -10,6 +11,7 @@ const UserHomePage = () => {
         <ModeToggle />
       </div>
       <Hero />
+      <CreatePost />
       <FeedCard
         avatar="https://pbs.twimg.com/profile_images/1700165991295307776/c9ULDyMW_400x400.jpg"
         username="Mohammed Ali Maaz"
