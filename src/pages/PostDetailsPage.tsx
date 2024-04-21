@@ -1,8 +1,10 @@
 import { axios } from "@/axios";
 import Layout from "@/components/custom/Layout";
 import PostDetailsCard from "@/components/custom/PostDetailsCard";
+import { Button } from "@/components/ui/button";
+import { SquareArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface IPost {
   _id: string;
@@ -37,6 +39,11 @@ const PostDetailsPage = () => {
     <Layout>
       {metaData && (
         <div>
+          <Link to={"/"}>
+            <Button>
+              <SquareArrowLeft />
+            </Button>
+          </Link>
           <PostDetailsCard metaData={metaData} />
         </div>
       )}
