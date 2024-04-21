@@ -1,10 +1,34 @@
+import { userState } from "@/atoms/userAtom";
+import { axios } from "@/axios";
 import CreatePost from "@/components/custom/CreatePost";
 import FeedCard from "@/components/custom/FeedCard";
 import Hero from "@/components/custom/Hero";
 import Layout from "@/components/custom/Layout";
 import { ModeToggle } from "@/components/custom/ModeToggle";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+
+interface IPost {
+  _id: string;
+  postedBy: string;
+  text: string;
+  image: { public_id: string; url: string };
+  likes: string[];
+  replies: string[];
+  createdAt: string;
+  updatedAt: string;
+}
 
 const UserHomePage = () => {
+  const [posts, setPost] = useState<Array<IPost>>();
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    (async function getPosts() {
+      const response = await axios.get("/posts", { withCredentials: true });
+      setPost(response.data.data);
+    })();
+  }, []);
   return (
     <Layout>
       <div className="flex items-center justify-center w-full p-2">
@@ -12,13 +36,18 @@ const UserHomePage = () => {
       </div>
       <Hero />
       <CreatePost />
-      <FeedCard
-        avatar="https://pbs.twimg.com/profile_images/1700165991295307776/c9ULDyMW_400x400.jpg"
-        username="Mohammed Ali Maaz"
-        description="It's my birthday🥳Want to do something that will give peace and happiness. What should I do?"
-        imageUrl="https://pbs.twimg.com/media/GK-rPymXQAALf7Y?format=jpg&name=large"
-        postId="1"
-      />
+      {posts &&
+        user &&
+        posts?.map((post) => (
+          <FeedCard
+            key={post?._id}
+            avatar={user?.profilePic?.url}
+            username={user?.username}
+            description={post?.text}
+            imageUrl={post?.image?.url}
+            postId={post?._id}
+          />
+        ))}
     </Layout>
   );
 };
