@@ -45,6 +45,7 @@ const UserHomePage = () => {
             imageUrl={post?.image?.url}
             postId={post?._id}
             postedBy={post?.postedBy}
+            createdAt={post?.createdAt}
           />
         ))}
     </Layout>

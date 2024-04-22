@@ -1,15 +1,23 @@
 import { axios } from "@/axios";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { ExternalLink, Heart, MessageCircle, Repeat2 } from "lucide-react";
+import {
+  Ellipsis,
+  ExternalLink,
+  Heart,
+  MessageCircle,
+  Repeat2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 
 interface FeedCardProps {
   description: string;
   imageUrl?: string;
   postId: string;
   postedBy: string;
+  createdAt: string;
 }
 
 interface IUser {
@@ -37,7 +45,7 @@ const FeedCard = (props: FeedCardProps) => {
     if (props.postedBy) {
       try {
         setLoading(true);
-        async function getUser() {
+        (async function getUser() {
           const response = await axios.get(
             `/users/postedBy/${props.postedBy}`,
             {
@@ -46,8 +54,7 @@ const FeedCard = (props: FeedCardProps) => {
           );
           setUser(response.data);
           setLoading(false);
-        }
-        getUser();
+        })();
       } catch (error: any) {
         setLoading(false);
         console.log(error.message);
@@ -58,28 +65,38 @@ const FeedCard = (props: FeedCardProps) => {
   }, [props.postId]);
 
   return (
-    <div className="w-full my-2 border rounded-lg">
-      <Link to={`post/${props.postId}`}>
+    <div className="flex w-full my-4 border rounded-lg">
+      <div className="w-full ">
         <div className="flex items-center p-2 space-x-3">
-          <Link to={`/${props.postedBy}`}>
+          <Link to={`/${props?.postedBy}`}>
             <Avatar>
               <AvatarImage src={user?.profilePic?.url} />
               <AvatarFallback>profile</AvatarFallback>
             </Avatar>
           </Link>
-          <div>
-            <h3>{user?.username}</h3>
-            <p className="text-sm text-gray-500">{props.description}</p>
+          <div className="w-full">
+            <div>
+              <h3>{user?.username}</h3>
+              <p className="text-sm text-gray-500">{props.description}</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 w-fit">
+            <span className="text-sm text-gray-400 w-fit">
+              {formatDistanceToNow(new Date(props?.createdAt), {
+                addSuffix: true,
+              })}
+            </span>
+            <Ellipsis />
           </div>
         </div>
 
-        <div className="m-1 w-fit">
+        <Link to={`post/${props?.postId}`} className="m-1 w-fit">
           <img
-            src={props.imageUrl}
+            src={props?.imageUrl}
             alt="post"
             className="mx-auto rounded-xl max-h-96"
           />
-        </div>
+        </Link>
         <div className="flex items-center p-2 space-x-3">
           <Heart
             className={cn(liked ? "text-red-500" : "")}
@@ -89,7 +106,7 @@ const FeedCard = (props: FeedCardProps) => {
           <Repeat2 />
           <ExternalLink />
         </div>
-      </Link>
+      </div>
     </div>
   );
 };
