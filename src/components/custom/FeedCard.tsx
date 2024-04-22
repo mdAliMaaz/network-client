@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface FeedCardProps {
-  username: string;
   description: string;
   imageUrl?: string;
   postId: string;
@@ -33,6 +32,7 @@ const FeedCard = (props: FeedCardProps) => {
     e.preventDefault();
     setLiked((prev) => !prev);
   };
+
   useEffect(() => {
     if (props.postedBy) {
       try {
@@ -61,12 +61,14 @@ const FeedCard = (props: FeedCardProps) => {
     <div className="w-full my-2 border rounded-lg">
       <Link to={`post/${props.postId}`}>
         <div className="flex items-center p-2 space-x-3">
-          <Avatar>
-            <AvatarImage src={user?.profilePic?.url} />
-            <AvatarFallback>profile</AvatarFallback>
-          </Avatar>
+          <Link to={`/${props.postedBy}`}>
+            <Avatar>
+              <AvatarImage src={user?.profilePic?.url} />
+              <AvatarFallback>profile</AvatarFallback>
+            </Avatar>
+          </Link>
           <div>
-            <h3>{props.username}</h3>
+            <h3>{user?.username}</h3>
             <p className="text-sm text-gray-500">{props.description}</p>
           </div>
         </div>

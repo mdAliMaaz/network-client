@@ -41,7 +41,6 @@ const UserHomePage = () => {
         posts?.map((post) => (
           <FeedCard
             key={post?._id}
-            username={user?.username}
             description={post?.text}
             imageUrl={post?.image?.url}
             postId={post?._id}
