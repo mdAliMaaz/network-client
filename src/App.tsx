@@ -5,32 +5,12 @@ import AuthPage from "./pages/AuthPage";
 import ProtectedRoute from "./components/custom/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import { userState } from "./atoms/userAtom";
-import { useEffect } from "react";
-import { AxiosError } from "axios";
-import { axios } from "./axios";
 import { useRecoilState } from "recoil";
 
 function App() {
-  const [user, setUser] = useRecoilState(userState);
+  const [user, _] = useRecoilState(userState);
 
-const localUser = localStorage.getItem("network-user");
 
-useEffect(() => {
-  if (localUser) {
-    (async function fetchUser() {
-      try {
-        const response = await axios.get("/users/profile", {
-          withCredentials: true,
-        });
-        setUser(response.data);
-      } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          console.log(error);
-        }
-      }
-    })();
-  }
-}, []);
 
 return (
   <Routes>

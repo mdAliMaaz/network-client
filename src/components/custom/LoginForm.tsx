@@ -27,7 +27,7 @@ export function LoginForm() {
   const setAuthState = useSetRecoilState(authPageState);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
+  const [_, setUser] = useRecoilState(userState);
 
   const [input, setInput] = useState<LoginFormInput>({
     email: "",

@@ -2,22 +2,32 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Actions from "./Actions";
 import Comments from "./Comments";
 import CreateComment from "./CreateComment";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/atoms/userAtom";
+import { useEffect, useState } from "react";
+import { axios } from "@/axios";
+import { IPost, IUser } from "@/types";
 
-interface IPost {
-  _id: string;
-  postedBy: string;
-  text: string;
-  image: { public_id: string; url: string };
-  likes: string[];
-  replies: string[];
-  createdAt: string;
-  updatedAt: string;
-}
+
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    if (metaData.postedBy) {
+      try {
+        (async function getUser() {
+          const response = await axios.get(
+            `/users/postedBy/${metaData.postedBy}`,
+            {
+              withCredentials: true,
+            }
+          );
+          setUser(response.data);
+        })();
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }, [metaData._id]);
 
   return (
     <div className="w-full py-5">

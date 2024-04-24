@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import { IUser } from "@/types";
 
 interface FeedCardProps {
   description: string;
@@ -20,21 +21,10 @@ interface FeedCardProps {
   createdAt: string;
 }
 
-interface IUser {
-  _id: string;
-  name: string;
-  username: string;
-  email: string;
-  profilePic: { url: string; public_id: string };
-  followers: string;
-  following: string;
-  bio: string;
-  isFrozen: boolean;
-}
+
 
 const FeedCard = (props: FeedCardProps) => {
   const [liked, setLiked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
   const handleLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.preventDefault();
@@ -44,7 +34,6 @@ const FeedCard = (props: FeedCardProps) => {
   useEffect(() => {
     if (props.postedBy) {
       try {
-        setLoading(true);
         (async function getUser() {
           const response = await axios.get(
             `/users/postedBy/${props.postedBy}`,
@@ -53,13 +42,9 @@ const FeedCard = (props: FeedCardProps) => {
             }
           );
           setUser(response.data);
-          setLoading(false);
         })();
       } catch (error: any) {
-        setLoading(false);
         console.log(error.message);
-      } finally {
-        setLoading(false);
       }
     }
   }, [props.postId]);

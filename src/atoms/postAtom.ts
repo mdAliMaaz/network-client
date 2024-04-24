@@ -1,16 +1,7 @@
 import { axios } from "@/axios";
+import { IPost } from "@/types";
 import { selector } from "recoil";
 
-interface IPost {
-  _id: string;
-  postedBy: string;
-  text: string;
-  image: { public_id: string; url: string };
-  likes: string[];
-  replies: string[];
-  createdAt: string;
-  updatedAt: string;
-}
 
 export const postState = selector<IPost[] | []>({
   key: "productState",
