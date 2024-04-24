@@ -1,16 +1,7 @@
 import { axios } from "@/axios";
-import { selector, selectorFamily } from "recoil";
+import {  selectorFamily } from "recoil";
 
-interface IPost {
-  _id: string;
-  postedBy: string;
-  text: string;
-  image: { public_id: string; url: string };
-  likes: string[];
-  replies: string[];
-  createdAt: string;
-  updatedAt: string;
-}
+
 
 export const postDetails = selectorFamily({
   key: "postDetails",
