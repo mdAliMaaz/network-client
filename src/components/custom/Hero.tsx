@@ -35,6 +35,7 @@ const Hero = () => {
       if (data.message) {
         toast(data.message);
         localStorage.removeItem("network-user");
+        setUser(null);
         navigate("/auth");
       }
     } catch (error: unknown) {

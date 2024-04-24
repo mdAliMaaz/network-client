@@ -10,13 +10,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import useToast from "@/hooks/useToast";
-import useLocalStroage from "@/hooks/useLocalStroage";
 import { axios } from "@/axios";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
+import { userState } from "@/atoms/userAtom";
 
 interface LoginFormInput {
   email: string;
@@ -27,13 +27,12 @@ export function LoginForm() {
   const setAuthState = useSetRecoilState(authPageState);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useRecoilState(userState);
 
   const [input, setInput] = useState<LoginFormInput>({
     email: "",
     password: "",
   });
-
-  const { setValue } = useLocalStroage();
 
   const toast = useToast();
 
@@ -51,9 +50,9 @@ export function LoginForm() {
       });
 
       if (data?.message) {
-        setValue("network-user", data?.data);
+        localStorage.setItem("network-user", JSON.stringify(data?.data));
         setLoading(false);
-
+        setUser(data?.data);
         toast(data?.message);
         navigate(`/`);
       }

@@ -1,4 +1,3 @@
-import { axios } from "@/axios";
 import { atom } from "recoil";
 
 interface IUser {
@@ -15,23 +14,6 @@ interface IUser {
 
 export const userState = atom<IUser | null>({
   key: "userState",
-  default: null,
-  effects: [
-    ({ onSet, setSelf }) => {
-      onSet(() => {
-        axios
-          .get("/users/profile", { withCredentials: true })
-          .then((response) => {
-            setSelf(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching new user data:", error);
-          });
-      });
-    },
-  ],
+  // @ts-ignore
+  default: JSON.parse(localStorage.getItem("network-user")),
 });
-
-
-
-
