@@ -5,8 +5,7 @@ import CreateComment from "./CreateComment";
 import { useEffect, useState } from "react";
 import { axios } from "@/axios";
 import { IPost, IUser } from "@/types";
-
-
+import { Link } from "react-router-dom";
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -32,12 +31,12 @@ const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
   return (
     <div className="w-full py-5">
       <div className="flex gap-3">
-        <div>
+        <Link to={`/user/${user?.username}`}>
           <Avatar>
             <AvatarImage src={user?.profilePic?.url} />
             <AvatarFallback>profile</AvatarFallback>
           </Avatar>
-        </div>
+        </Link>
         <div className="flex flex-col gap-3">
           <h1 className="text-xl font-semibold">{user?.name}</h1>
           <p className="text-gray-500 ">{metaData?.text}</p>

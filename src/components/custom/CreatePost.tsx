@@ -6,13 +6,16 @@ import { axios } from "@/axios";
 import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
 import Loading from "./Loading";
+import { refreshPostsTriggerState } from "@/atoms/postAtom";
+import { useSetRecoilState } from "recoil";
 
 const CreatePost = () => {
+  const toast = useToast();
   const [imagePreview, setImagePreview] = useState<any>(null);
   const [files, setFiles] = useState<any>(null);
   const [input, setInput] = useState<string>("");
-  const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
+  const setRefreshPostsTrigger = useSetRecoilState(refreshPostsTriggerState);
 
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -42,6 +45,7 @@ const CreatePost = () => {
         setLoading(false);
         setImagePreview("");
         setInput("");
+        setRefreshPostsTrigger((value) => value + 1);
         toast(response.data.message);
       }
     } catch (error: unknown) {
@@ -61,6 +65,7 @@ const CreatePost = () => {
         onChange={(e) => setInput(e.target.value)}
         value={input}
         name="text"
+        autoComplete="off"
       />
       <div className="my-5 border-[1px]"></div>
       {imagePreview && (

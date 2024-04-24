@@ -53,7 +53,7 @@ const FeedCard = (props: FeedCardProps) => {
     <div className="flex w-full my-4 border rounded-lg">
       <div className="w-full ">
         <div className="flex items-center p-2 space-x-3">
-          <Link to={`/${props?.postedBy}`}>
+          <Link to={`/user/${user?.username}`}>
             <Avatar>
               <AvatarImage src={user?.profilePic?.url} />
               <AvatarFallback>profile</AvatarFallback>
