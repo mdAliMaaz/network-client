@@ -1,5 +1,5 @@
 import { axios } from "@/axios";
-import { selector } from "recoil";
+import { selector, selectorFamily } from "recoil";
 
 interface IPost {
   _id: string;
@@ -12,15 +12,17 @@ interface IPost {
   updatedAt: string;
 }
 
-export const postState = selector<IPost[] | []>({
-  key: "productState",
-  get: async () => {
+export const postDetails = selectorFamily({
+  key: "postDetails",
+  get: (id) => async () => {
     try {
-      const response = await axios.get("/posts", { withCredentials: true });
+      const response = await axios.get(`/posts/${String(id)}`, {
+        withCredentials: true,
+      });
       return response.data.data;
     } catch (err: any) {
+      console.log(err);
       throw err;
     }
   },
 });
-

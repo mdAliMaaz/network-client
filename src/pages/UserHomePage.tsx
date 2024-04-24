@@ -1,4 +1,4 @@
-import { productState } from "@/atoms/productAtom";
+import { postState } from "@/atoms/postAtom";
 import { userState } from "@/atoms/userAtom";
 import CreatePost from "@/components/custom/CreatePost";
 import FeedCard from "@/components/custom/FeedCard";
@@ -20,7 +20,7 @@ interface IPost {
 
 const UserHomePage = () => {
   const user = useRecoilValue(userState);
-  const posts = useRecoilValue<Array<IPost>>(productState);
+  const posts = useRecoilValue<Array<IPost>>(postState);
 
   return (
     <Layout>
