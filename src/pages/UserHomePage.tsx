@@ -1,11 +1,10 @@
+import { productState } from "@/atoms/productAtom";
 import { userState } from "@/atoms/userAtom";
-import { axios } from "@/axios";
 import CreatePost from "@/components/custom/CreatePost";
 import FeedCard from "@/components/custom/FeedCard";
 import Hero from "@/components/custom/Hero";
 import Layout from "@/components/custom/Layout";
 import { ModeToggle } from "@/components/custom/ModeToggle";
-import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 interface IPost {
@@ -20,15 +19,9 @@ interface IPost {
 }
 
 const UserHomePage = () => {
-  const [posts, setPost] = useState<Array<IPost>>();
   const user = useRecoilValue(userState);
+  const posts = useRecoilValue<Array<IPost>>(productState);
 
-  useEffect(() => {
-    (async function getPosts() {
-      const response = await axios.get("/posts", { withCredentials: true });
-      setPost(response.data.data);
-    })();
-  }, []);
   return (
     <Layout>
       <div className="flex items-center justify-center w-full p-2">
