@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { axios } from "@/axios";
 import { IPost, IUser } from "@/types";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -34,7 +35,9 @@ const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
         <Link to={`/user/${user?.username}`}>
           <Avatar>
             <AvatarImage src={user?.profilePic?.url} />
-            <AvatarFallback>profile</AvatarFallback>
+            <AvatarFallback>
+              <Skeleton className="w-12 h-12 rounded-full" />
+            </AvatarFallback>
           </Avatar>
         </Link>
         <div className="flex flex-col gap-3">

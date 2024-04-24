@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { IUser } from "@/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FeedCardProps {
   description: string;
@@ -20,8 +21,6 @@ interface FeedCardProps {
   postedBy: string;
   createdAt: string;
 }
-
-
 
 const FeedCard = (props: FeedCardProps) => {
   const [liked, setLiked] = useState(false);
@@ -56,7 +55,9 @@ const FeedCard = (props: FeedCardProps) => {
           <Link to={`/user/${user?.username}`}>
             <Avatar>
               <AvatarImage src={user?.profilePic?.url} />
-              <AvatarFallback>profile</AvatarFallback>
+              <AvatarFallback>
+                <Skeleton className="w-12 h-12 rounded-full" />
+              </AvatarFallback>
             </Avatar>
           </Link>
           <div className="w-full">
