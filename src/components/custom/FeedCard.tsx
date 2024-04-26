@@ -1,4 +1,3 @@
-import { axios } from "@/axios";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import {
@@ -8,11 +7,12 @@ import {
   MessageCircle,
   Repeat2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
-import { IUser } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRecoilValue } from "recoil";
+import { userById } from "@/atoms/userAtom";
 
 interface FeedCardProps {
   description: string;
@@ -23,30 +23,14 @@ interface FeedCardProps {
 }
 
 const FeedCard = (props: FeedCardProps) => {
+  const user = useRecoilValue(userById(props.postedBy));
+  
   const [liked, setLiked] = useState(false);
-  const [user, setUser] = useState<IUser | null>(null);
+
   const handleLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.preventDefault();
     setLiked((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (props.postedBy) {
-      try {
-        (async function getUser() {
-          const response = await axios.get(
-            `/users/postedBy/${props.postedBy}`,
-            {
-              withCredentials: true,
-            }
-          );
-          setUser(response.data);
-        })();
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  }, [props.postId]);
 
   return (
     <div className="flex w-full my-4 border rounded-lg">

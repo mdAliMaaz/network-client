@@ -2,32 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Actions from "./Actions";
 import Comments from "./Comments";
 import CreateComment from "./CreateComment";
-import { useEffect, useState } from "react";
-import { axios } from "@/axios";
-import { IPost, IUser } from "@/types";
+import { IPost } from "@/types";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRecoilValue } from "recoil";
+import { userById } from "@/atoms/userAtom";
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
-  const [user, setUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    if (metaData.postedBy) {
-      try {
-        (async function getUser() {
-          const response = await axios.get(
-            `/users/postedBy/${metaData.postedBy}`,
-            {
-              withCredentials: true,
-            }
-          );
-          setUser(response.data);
-        })();
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  }, [metaData._id]);
+  const user = useRecoilValue(userById(metaData.postedBy));
 
   return (
     <div className="w-full py-5">
