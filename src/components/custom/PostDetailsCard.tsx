@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Actions from "./Actions";
 import Comments from "./Comments";
-import CreateComment from "./CreateComment";
 import { IPost } from "@/types";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,7 +8,6 @@ import { useRecoilValue } from "recoil";
 import { userById } from "@/atoms/userAtom";
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
-  
   const user = useRecoilValue(userById(metaData.postedBy));
 
   return (
@@ -40,14 +38,21 @@ const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
         totalReplys={metaData?.replies?.length}
         post_id={metaData._id}
         likes={metaData.likes}
+        replies={metaData.replies}
       />
-      <CreateComment />
       <div className="flex flex-col">
-        <Comments
-          comment="I really need someone who can fix this shit."
-          createdAt="5d"
-          userProfileUrl="https://avatars.githubusercontent.com/u/130007307?v=4"
-        />
+        {metaData?.replies?.map((item) => (
+          <Comments
+          username={item?.username}
+            likes={item?.likes}
+            post_id={metaData?._id}
+            totalLikes={item?.likes?.length}
+            comment={item?.text}
+            createdAt={item?.createdAt}
+            userProfileUrl={item?.userProfilePic}
+            key={item._id}
+          />
+        ))}
       </div>
     </div>
   );

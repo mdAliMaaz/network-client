@@ -5,18 +5,10 @@ import FeedCard from "@/components/custom/FeedCard";
 import Hero from "@/components/custom/Hero";
 import Layout from "@/components/custom/Layout";
 import { ModeToggle } from "@/components/custom/ModeToggle";
+import { IPost } from "@/types";
 import { useRecoilValue } from "recoil";
 
-interface IPost {
-  _id: string;
-  postedBy: string;
-  text: string;
-  image: { public_id: string; url: string };
-  likes: string[];
-  replies: string[];
-  createdAt: string;
-  updatedAt: string;
-}
+
 
 const UserHomePage = () => {
   const user = useRecoilValue(userState);
@@ -42,6 +34,7 @@ const UserHomePage = () => {
             totalReplys={post?.replies?.length}
             totalLikes={post?.likes?.length}
             likes={post?.likes}
+            replies={post?.replies}
           />
         ))}
     </Layout>

@@ -1,10 +1,21 @@
+export interface IReply {
+  _id:string
+  userId: string;
+  text: string;
+  userProfilePic: string;
+  username: string;
+  likes: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IPost {
   _id: string;
   postedBy: string;
   text: string;
   image: { public_id: string; url: string };
   likes: string[];
-  replies: string[];
+  replies: IReply[];
   createdAt: string;
   updatedAt: string;
 }

@@ -1,10 +1,15 @@
 import { Ellipsis } from "lucide-react";
 import Actions from "./Actions";
+import { IPost } from "@/types";
 
 interface CommentsProps {
+  username: string;
   userProfileUrl: string;
   createdAt: string;
   comment: string;
+  likes: string[];
+  totalLikes: number;
+  post_id: string;
 }
 
 const Comments = (props: CommentsProps) => {
@@ -20,10 +25,16 @@ const Comments = (props: CommentsProps) => {
             />
           </div>
           <div>
-            <p>{props.comment}</p>
+            <span className="font-semibold ">{props.username}</span>
+            <p className="text-gray-400 ">{props.comment}</p>
           </div>
         </div>
-        <Actions />
+        <Actions
+          post_id={props.post_id}
+          totalLikes={props.totalLikes}
+          type="reply"
+          likes={props.likes}
+        />
       </div>
       <div className="flex items-center space-x-3">
         <span>{props.createdAt}</span>

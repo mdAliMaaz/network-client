@@ -1,13 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Ellipsis
-} from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecoilValue } from "recoil";
 import { userById } from "@/atoms/userAtom";
 import Actions from "./Actions";
+import { IReply } from "@/types";
 
 interface FeedCardProps {
   description: string;
@@ -17,15 +16,17 @@ interface FeedCardProps {
   createdAt: string;
   totalLikes: number;
   totalReplys: number;
-  likes:string[];
+  likes: string[];
+  replies:IReply[]
 }
 
 const FeedCard = (props: FeedCardProps) => {
-  const user = useRecoilValue(userById(props.postedBy));
   
+  const user = useRecoilValue(userById(props.postedBy));
+
   const date = formatDistanceToNow(new Date(props?.createdAt), {
     addSuffix: false,
-  }).replace(/about/g, ""); // This regex matches "about" or "days" globally in the string
+  }).replace(/about/g, "");
 
   return (
     <div className="flex w-full my-4 border rounded-lg">
@@ -69,6 +70,7 @@ const FeedCard = (props: FeedCardProps) => {
           totalLikes={props.totalLikes}
           totalReplys={props.totalReplys}
           post_id={props.postId}
+          replies={props.replies}
         />
       </div>
     </div>
