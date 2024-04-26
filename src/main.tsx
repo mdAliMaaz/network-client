@@ -6,10 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import { RecoilRoot } from "recoil";
 import { Suspense } from "react";
+import LoadingSpinner from "./components/custom/LoadingSpinner.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RecoilRoot>
-    <Suspense fallback={<h1>Loading...</h1>}>
+    <Suspense fallback={<LoadingSpinner />}>
       <BrowserRouter>
         <ThemeProvider defaultTheme="dark" storageKey="app-theme">
           <App />
