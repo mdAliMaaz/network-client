@@ -22,6 +22,10 @@ interface FeedCardProps {
 
 const FeedCard = (props: FeedCardProps) => {
   const user = useRecoilValue(userById(props.postedBy));
+  
+  const date = formatDistanceToNow(new Date(props?.createdAt), {
+    addSuffix: false,
+  }).replace(/about/g, ""); // This regex matches "about" or "days" globally in the string
 
   return (
     <div className="flex w-full my-4 border rounded-lg">
@@ -44,12 +48,8 @@ const FeedCard = (props: FeedCardProps) => {
               <p className="text-sm text-gray-500">{props.description}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2 w-fit">
-            <span className="text-sm text-gray-400 w-fit">
-              {formatDistanceToNow(new Date(props?.createdAt), {
-                addSuffix: true,
-              })}
-            </span>
+          <div className="flex items-center space-x-2 w-36 lg:w-28 sm:w-32 ">
+            <span className="text-sm text-gray-400 ">{date}</span>
             <Ellipsis />
           </div>
         </div>
@@ -63,7 +63,13 @@ const FeedCard = (props: FeedCardProps) => {
             />
           )}
         </Link>
-        <Actions likes={props.likes} type="post" totalLikes={props.totalLikes} totalReplys={props.totalReplys} post_id={props.postId} />
+        <Actions
+          likes={props.likes}
+          type="post"
+          totalLikes={props.totalLikes}
+          totalReplys={props.totalReplys}
+          post_id={props.postId}
+        />
       </div>
     </div>
   );

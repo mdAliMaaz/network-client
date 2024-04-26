@@ -20,9 +20,6 @@ const Actions = (props: ActionProps) => {
     if (user?._id) {
       return props?.likes?.includes(user?._id);
     }
-    else{
-      return 0;
-    }
   });
 
   const [totalReplys, setTotalReplys] = useState(props.totalReplys);
