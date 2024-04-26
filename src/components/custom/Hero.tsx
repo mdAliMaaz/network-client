@@ -58,10 +58,12 @@ const Hero = () => {
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Avatar>
-              <AvatarImage src={user?.profilePic?.url} />
-              <AvatarFallback>profile</AvatarFallback>
-            </Avatar>
+            <div className="p-1 border rounded-full border-primary">
+              <Avatar>
+                <AvatarImage src={user?.profilePic?.url} />
+                <AvatarFallback>profile</AvatarFallback>
+              </Avatar>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem className="flex items-center justify-between ">
@@ -92,7 +94,7 @@ const Hero = () => {
                 <CircleEllipsis />
               </DropdownMenuTrigger>
               <DropdownMenuContent onClick={handleCopy}>
-                <DropdownMenuItem className="flex items-center justify-between ">
+                <DropdownMenuItem className="flex items-center justify-between">
                   Copy <Copy className="w-3 h-3" />
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -35,8 +35,11 @@ const FeedCard = (props: FeedCardProps) => {
   return (
     <div className="flex w-full my-4 border rounded-lg">
       <div className="w-full ">
-        <div className="flex items-center p-2 space-x-3">
-          <Link to={`/user/${user?.username}`}>
+        <div className="flex items-center p-2 space-x-3 ">
+          <Link
+            to={`/user/${user?.username}`}
+            className="border rounded-full border-primary p-[1px]"
+          >
             <Avatar>
               <AvatarImage src={user?.profilePic?.url} />
               <AvatarFallback>

@@ -102,7 +102,7 @@ export function LoginForm() {
           </Button>
         </CardFooter>
         <CardFooter>
-          don't have an account{" "}
+          don't have an account ?{" "}
           <span>
             <Button
               onClick={() => setAuthState("signup")}
