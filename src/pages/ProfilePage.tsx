@@ -70,6 +70,7 @@ const ProfilePage = () => {
         { input },
         { withCredentials: true }
       );
+      console.log("info-update", response.data);
       setUser(response.data.data);
       setLoading(false);
       toast(response.data.message);
@@ -93,8 +94,12 @@ const ProfilePage = () => {
           const response = await axios.post("/images/uploadSingle", formData, {
             withCredentials: true,
           });
-          setUser(response.data);
           setProfilePreview("");
+          localStorage.setItem(
+            "network-user",
+            JSON.stringify(response.data.data)
+          );
+          setUser(response.data.data);
           setLoading(false);
           toast(response.data.message);
         }
