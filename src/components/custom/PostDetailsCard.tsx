@@ -9,6 +9,7 @@ import { useRecoilValue } from "recoil";
 import { userById } from "@/atoms/userAtom";
 
 const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
+  
   const user = useRecoilValue(userById(metaData.postedBy));
 
   return (
@@ -33,7 +34,13 @@ const PostDetailsCard = ({ metaData }: { metaData: IPost }) => {
         alt="post-img"
         className="w-full mt-2 rounded-lg"
       />
-      <Actions />
+      <Actions
+        type="post"
+        totalLikes={metaData?.likes?.length}
+        totalReplys={metaData?.replies?.length}
+        post_id={metaData._id}
+        likes={metaData.likes}
+      />
       <CreateComment />
       <div className="flex flex-col">
         <Comments

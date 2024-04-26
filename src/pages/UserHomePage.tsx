@@ -39,6 +39,9 @@ const UserHomePage = () => {
             postId={post?._id}
             postedBy={post?.postedBy}
             createdAt={post?.createdAt}
+            totalReplys={post?.replies?.length}
+            totalLikes={post?.likes?.length}
+            likes={post?.likes}
           />
         ))}
     </Layout>

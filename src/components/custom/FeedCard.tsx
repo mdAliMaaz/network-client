@@ -1,18 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import {
-  Ellipsis,
-  ExternalLink,
-  Heart,
-  MessageCircle,
-  Repeat2,
+  Ellipsis
 } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecoilValue } from "recoil";
 import { userById } from "@/atoms/userAtom";
+import Actions from "./Actions";
 
 interface FeedCardProps {
   description: string;
@@ -20,17 +15,13 @@ interface FeedCardProps {
   postId: string;
   postedBy: string;
   createdAt: string;
+  totalLikes: number;
+  totalReplys: number;
+  likes:string[];
 }
 
 const FeedCard = (props: FeedCardProps) => {
   const user = useRecoilValue(userById(props.postedBy));
-  
-  const [liked, setLiked] = useState(false);
-
-  const handleLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    e.preventDefault();
-    setLiked((prev) => !prev);
-  };
 
   return (
     <div className="flex w-full my-4 border rounded-lg">
@@ -64,21 +55,15 @@ const FeedCard = (props: FeedCardProps) => {
         </div>
 
         <Link to={`post/${props?.postId}`} className="m-1 w-fit">
-          <img
-            src={props?.imageUrl}
-            alt="post"
-            className="mx-auto rounded-xl max-h-96"
-          />
+          {props?.imageUrl && (
+            <img
+              src={props?.imageUrl}
+              alt="post"
+              className="mx-auto rounded-xl max-h-96"
+            />
+          )}
         </Link>
-        <div className="flex items-center p-2 space-x-3">
-          <Heart
-            className={cn(liked ? "text-red-500" : "")}
-            onClick={handleLike}
-          />
-          <MessageCircle />
-          <Repeat2 />
-          <ExternalLink />
-        </div>
+        <Actions likes={props.likes} type="post" totalLikes={props.totalLikes} totalReplys={props.totalReplys} post_id={props.postId} />
       </div>
     </div>
   );
