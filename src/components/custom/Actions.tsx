@@ -14,8 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-
 import { Input } from "../ui/input";
+import Loading from "./Loading";
 
 interface ActionProps {
   type: string;
@@ -36,10 +36,10 @@ const Actions = (props: ActionProps) => {
   });
 
   const [totalReplys, setTotalReplys] = useState(props.totalReplys || 0);
-
   const [totalLikes, setTotalLikes] = useState(props.totalLikes);
-
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isOpen,setIsOpen] = useState(false);
 
   const handleLike = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.preventDefault();
@@ -57,14 +57,37 @@ const Actions = (props: ActionProps) => {
   };
 
   const handleReply = async () => {
-    setTotalReplys((prev) => prev + 1);
-    await axios.post(
-      `/posts/reply/${props.post_id}`,
-      { text },
-      {
-        withCredentials: true,
+    if(text !== ''){
+      try {
+        setTotalReplys((prev) => prev + 1);
+        setLoading(true)
+        await axios.post(
+          `/posts/reply/${props.post_id}`,
+          { text },
+          {
+            withCredentials: true,
+          }
+        );
+        setIsOpen(false)
+        setLoading(false)
+        setText("")
+      } catch (error:any) {
+        setText("")
+        setLoading(false);
+        console.log(error)
+        setIsOpen(false)
       }
-    );
+      finally{
+        setText("")
+        setLoading(false)
+        setIsOpen(false)
+      }
+    }
+    
+  };
+
+  const handleLikeAReply = async () => {
+    console.log("liked a reply")
   };
 
   return (
@@ -74,14 +97,14 @@ const Actions = (props: ActionProps) => {
           strokeWidth={3}
           absoluteStrokeWidth
           className={`${cn(isLiked ? "text-red-500" : "")} cursor-pointer`}
-          onClick={handleLike}
+          onClick={props.type === "post" ? handleLike : handleLikeAReply}
         />
         <span className="text-sm text-gray-300">{totalLikes} likes</span>
       </div>
       <div className="flex items-center space-x-1">
-        <Dialog>
+        <Dialog open={isOpen}>
           <DialogTrigger asChild>
-            <MessageCircle className="cursor-pointer " />
+            <MessageCircle onClick={()=>setIsOpen(true)} className="cursor-pointer " />
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -95,11 +118,13 @@ const Actions = (props: ActionProps) => {
                   onChange={(e) => setText(e.target.value)}
                   className="col-span-8"
                   placeholder="message"
+                  required
                 />
               </div>
             </div>
             <DialogFooter>
               <Button onClick={handleReply} size="sm" type="submit">
+              {loading && <Loading />}
                 Reply
               </Button>
             </DialogFooter>

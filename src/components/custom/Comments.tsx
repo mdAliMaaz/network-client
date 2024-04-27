@@ -1,6 +1,5 @@
 import { Ellipsis } from "lucide-react";
 import Actions from "./Actions";
-import { IPost } from "@/types";
 
 interface CommentsProps {
   username: string;

@@ -15,7 +15,6 @@ export const userById = selectorFamily({
       const response = await axios.get(`/users/postedBy/${String(userId)}`, {
         withCredentials: true,
       });
-      console.log(response.data);
       return response.data;
     } catch (err: any) {
       throw err;
