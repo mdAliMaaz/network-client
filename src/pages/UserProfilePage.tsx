@@ -20,6 +20,8 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import useToast from "@/hooks/useToast";
+import { useState } from "react";
+import { axios } from "@/axios";
 
 const UserProfilePage = () => {
   const { username } = useParams();
@@ -27,7 +29,15 @@ const UserProfilePage = () => {
   const userByUsername: IUser = useRecoilValue(userByusername(username));
   const posts: IPost[] = useRecoilValue(postByUsername(userByUsername?._id));
   const currentUser = useRecoilValue(userState);
-  
+  const [following, setFollowing] = useState(() => {
+    if (currentUser) {
+      return currentUser.following.includes(userByUsername?._id);
+    }
+  });
+
+  const [totalFollower, setTotalFollower] = useState(
+    () => userByUsername?.followers.length
+  );
 
   const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const profileUrl: any = new URL(e.view.document.location.href);
@@ -35,6 +45,20 @@ const UserProfilePage = () => {
       .writeText(profileUrl)
       .then(() => toast("Copyed to clipboard"));
   };
+
+  const handleFollow = async () => {
+    setFollowing((prev) => !prev);
+    if (following) {
+      setTotalFollower((prev) => prev - 1);
+    } else {
+      setTotalFollower((prev) => prev + 1);
+    }
+    await axios.post(`/users/follow/${userByUsername._id}`, null, {
+      withCredentials: true,
+    });
+  };
+  console.log(currentUser?.following);
+  console.log(currentUser?.name);
 
   return (
     <Layout>
@@ -53,8 +77,12 @@ const UserProfilePage = () => {
             />
           </div>
           {username !== currentUser?.username && (
-            <Button variant={"default"} size={"sm"}>
-              follow
+            <Button
+              variant={following ? "outline" : "default"}
+              size={"sm"}
+              onClick={handleFollow}
+            >
+              {following ? "following" : "follow"}
             </Button>
           )}
         </div>
@@ -82,9 +110,7 @@ const UserProfilePage = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <p className="text-gray-400/90">
-            {currentUser?.bio}
-          </p>
+          <p className="text-gray-400/90">{currentUser?.bio}</p>
         </div>
         <div className="flex items-center space-x-5 text-gray-500 w-fit">
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
@@ -99,10 +125,7 @@ const UserProfilePage = () => {
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
             <span>
               {" "}
-              <span className="font-bold ">
-                {userByUsername?.followers.length}
-              </span>{" "}
-              Followers
+              <span className="font-bold ">{totalFollower}</span> Followers
             </span>
           </Badge>
         </div>

@@ -23,10 +23,13 @@ export const postState = selector<IPost[] | []>({
 export const postByUsername = selectorFamily({
   key: "postByUsername",
   get: (id) => async () => {
-    const response = await axios.get(`/posts/user/${String(id)}`, {
-      withCredentials: true,
-    });
-    console.log(response.data);
-    return response.data.data;
+    try {
+      const response = await axios.get(`/posts/user/${String(id)}`, {
+        withCredentials: true,
+      });
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
   },
 });
