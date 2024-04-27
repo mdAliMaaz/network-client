@@ -53,7 +53,7 @@ const Hero = () => {
             {user?.name}
           </h4>
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
-            {user?.username}
+            @{user?.username}
           </Badge>
         </div>
         <DropdownMenu>

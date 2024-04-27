@@ -1,6 +1,6 @@
 import { axios } from "@/axios";
 import { IPost } from "@/types";
-import { atom, selector } from "recoil";
+import { atom, selector, selectorFamily } from "recoil";
 
 export const refreshPostsTriggerState = atom({
   key: "refreshPostsTriggerState",
@@ -20,3 +20,13 @@ export const postState = selector<IPost[] | []>({
   },
 });
 
+export const postByUsername = selectorFamily({
+  key: "postByUsername",
+  get: (id) => async () => {
+    const response = await axios.get(`/posts/user/${String(id)}`, {
+      withCredentials: true,
+    });
+    console.log(response.data);
+    return response.data.data;
+  },
+});

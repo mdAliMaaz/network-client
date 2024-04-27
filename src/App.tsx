@@ -6,11 +6,10 @@ import ProtectedRoute from "./components/custom/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import { userState } from "./atoms/userAtom";
 import { useRecoilState } from "recoil";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
   const [user, _] = useRecoilState(userState);
-
-
 
 return (
   <Routes>
@@ -27,9 +26,15 @@ return (
       path="/profile"
       element={
         <ProtectedRoute>
-          <h1>
-            <ProfilePage />
-          </h1>
+          <ProfilePage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/user/:username"
+      element={
+        <ProtectedRoute>
+          <UserProfilePage />
         </ProtectedRoute>
       }
     />

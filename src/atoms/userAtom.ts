@@ -21,3 +21,17 @@ export const userById = selectorFamily({
     }
   },
 });
+
+export const userByusername = selectorFamily({
+  key: "userByUsername",
+  get: (username) => async () => {
+    try {
+      const response = await axios.get(`/users/${String(username)}`, {
+        withCredentials: true,
+      });
+      return response.data.data;
+    } catch (err: any) {
+      throw err;
+    }
+  },
+});

@@ -21,8 +21,7 @@ const UserHomePage = () => {
       </div>
       <Hero />
       <CreatePost />
-      {posts &&
-        user &&
+      {user && posts ? (
         posts?.map((post) => (
           <FeedCard
             key={post?._id}
@@ -36,7 +35,10 @@ const UserHomePage = () => {
             likes={post?.likes}
             replies={post?.replies}
           />
-        ))}
+        ))
+      ) : (
+        <p>Create Post or Follow a user to see posts</p>
+      )}
     </Layout>
   );
 };
