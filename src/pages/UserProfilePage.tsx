@@ -1,11 +1,16 @@
-import { userByusername } from "@/atoms/userAtom";
+import { userByusername, userState } from "@/atoms/userAtom";
 import Layout from "@/components/custom/Layout";
 import { IPost, IUser } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, CircleEllipsis, Copy } from "lucide-react";
+import {
+  BadgeCheck,
+  CircleEllipsis,
+  Copy,
+  SquareArrowLeft,
+} from "lucide-react";
 import { postByUsername } from "@/atoms/postAtom";
 import FeedCard from "@/components/custom/FeedCard";
 import {
@@ -19,8 +24,10 @@ import useToast from "@/hooks/useToast";
 const UserProfilePage = () => {
   const { username } = useParams();
   const toast = useToast();
-  const user: IUser = useRecoilValue(userByusername(username));
-  const posts: IPost[] = useRecoilValue(postByUsername(user?._id));
+  const userByUsername: IUser = useRecoilValue(userByusername(username));
+  const posts: IPost[] = useRecoilValue(postByUsername(userByUsername?._id));
+  const currentUser = useRecoilValue(userState);
+  
 
   const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const profileUrl: any = new URL(e.view.document.location.href);
@@ -31,30 +38,37 @@ const UserProfilePage = () => {
 
   return (
     <Layout>
+      <Button type="button" className="mt-5">
+        <Link to={`/`}>
+          <SquareArrowLeft />
+        </Link>
+      </Button>
       <div className="flex flex-col py-10 space-y-10">
         <div className="flex items-center justify-between p-1 ">
           <div className="p-1 border rounded-full border-primary w-fit">
             <img
-              src={user?.profilePic?.url}
-              alt={user?.username}
+              src={userByUsername?.profilePic?.url}
+              alt={userByUsername?.username}
               className="w-20 rounded-full md:w-28"
             />
           </div>
-          <Button variant={"default"} size={"sm"}>
-            follow
-          </Button>
+          {username !== currentUser?.username && (
+            <Button variant={"default"} size={"sm"}>
+              follow
+            </Button>
+          )}
         </div>
         <div className="flex flex-col space-y-5">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="flex items-center space-x-2 text-3xl">
-                {user?.name}{" "}
+                {userByUsername?.name}{" "}
                 <span className="mx-4 ">
                   <BadgeCheck className=" text-primary" />
                 </span>
               </h1>
               <Badge className="text-gray-500 w-fit" variant={"outline"}>
-                @{user?.username}
+                @{userByUsername?.username}
               </Badge>
             </div>
             <DropdownMenu>
@@ -69,30 +83,32 @@ const UserProfilePage = () => {
             </DropdownMenu>
           </div>
           <p className="text-gray-400/90">
-            Globally Respected Humanitarian + Celebrated Leadership Expert +
-            Advisor to Business Titans. #1 Bestselling Author of The 5AM Club +
-            The Everyday Hero Manifesto
+            {currentUser?.bio}
           </p>
         </div>
         <div className="flex items-center space-x-5 text-gray-500 w-fit">
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
             <span>
               {" "}
-              <span className="font-bold ">{user?.following.length}</span>{" "}
+              <span className="font-bold ">
+                {userByUsername?.following.length}
+              </span>{" "}
               Following
             </span>
           </Badge>
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
             <span>
               {" "}
-              <span className="font-bold ">{user?.followers.length}</span>{" "}
+              <span className="font-bold ">
+                {userByUsername?.followers.length}
+              </span>{" "}
               Followers
             </span>
           </Badge>
         </div>
       </div>
       <div>
-        {user && posts ? (
+        {userByUsername && posts ? (
           posts?.map((post) => (
             <FeedCard
               key={post?._id}
