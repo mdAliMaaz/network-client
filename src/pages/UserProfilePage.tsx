@@ -1,4 +1,4 @@
-import { userByusername, userState } from "@/atoms/userAtom";
+import { getCurrentUser, userByusername } from "@/atoms/userAtom";
 import Layout from "@/components/custom/Layout";
 import { IPost, IUser } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -28,13 +28,12 @@ const UserProfilePage = () => {
   const toast = useToast();
   const userByUsername: IUser = useRecoilValue(userByusername(username));
   const posts: IPost[] = useRecoilValue(postByUsername(userByUsername?._id));
-  const currentUser = useRecoilValue(userState);
+  const currentUser: IUser = useRecoilValue(getCurrentUser);
   const [following, setFollowing] = useState(() => {
     if (currentUser) {
       return currentUser.following.includes(userByUsername?._id);
     }
   });
-
   const [totalFollower, setTotalFollower] = useState(
     () => userByUsername?.followers.length
   );
@@ -57,8 +56,6 @@ const UserProfilePage = () => {
       withCredentials: true,
     });
   };
-  console.log(currentUser?.following);
-  console.log(currentUser?.name);
 
   return (
     <Layout>
