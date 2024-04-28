@@ -12,15 +12,15 @@ const ChatUserCard = () => {
           />
         </div>
         <div className="flex-1">
-          <h1 className="flex items-center text-sm">
+          <span className="flex items-center text-sm">
             Mohammed Ali Maaz{" "}
             <span className="mx-2">
               <BadgeCheck className="size-4 text-primary" />
             </span>
-          </h1>
-          <p className="text-sm text-gray-400/50">
+          </span>
+          <div className="text-sm text-gray-400/50">
             Lorem, ipsum dolor sit amet consectetur
-          </p>
+          </div>
         </div>
       </div>
     </div>

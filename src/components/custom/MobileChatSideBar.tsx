@@ -16,11 +16,9 @@ const MobileChatSideBar = () => {
   return (
     <div className="block my-3 md:hidden">
       <Sheet>
-        <Button size={"icon"}>
-          <SheetTrigger>
-            <Menu />
-          </SheetTrigger>
-        </Button>
+        <SheetTrigger>
+          <Menu className="p-1 rounded-md size-8 bg-primary" />
+        </SheetTrigger>
         <SheetContent side={"left"} className="w-full">
           <SheetHeader>
             <SheetTitle>

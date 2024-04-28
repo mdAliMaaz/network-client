@@ -19,11 +19,6 @@ const ChatSideBar = () => {
       <ChatUserCard />
       <ChatUserCard />
       <ChatUserCard />
-      <ChatUserCard />
-      <ChatUserCard />
-      <ChatUserCard />
-      <ChatUserCard />
-      <ChatUserCard />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { BadgeCheck } from "lucide-react";
 import { useState } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import Message from "./Message";
+import MessageLoading from "./MessageLoading";
 
 const MessageContainer = () => {
   const [loading, setLoading] = useState(false);
@@ -25,58 +25,13 @@ const MessageContainer = () => {
         </div>
       </div>
       <div className="p-2 ">
-        {loading && (
-          <div className="flex flex-col gap-10">
-            <div className="flex items-center space-x-4">
-              <Skeleton className="w-12 h-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-
-            <div className="flex items-center ml-auto space-x-4">
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-              <Skeleton className="w-12 h-12 rounded-full" />
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Skeleton className="w-12 h-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-
-            <div className="flex items-center ml-auto space-x-4">
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-              <Skeleton className="w-12 h-12 rounded-full" />
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Skeleton className="w-12 h-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-          </div>
+        {loading ? (
+          <MessageLoading />
+        ) : (
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+            <Message key={item} myMessage={item % 2 === 0 ? true : false} />
+          ))
         )}
-        <div className="flex flex-col"></div>
-        <Message />
-        <Message myMessage={true} />
-        <Message />
-        <Message myMessage={true} />
-        <Message />
-        <Message myMessage={true} />
-        <Message />
-        <Message />
       </div>
     </div>
   );
