@@ -1,9 +1,10 @@
 import { BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import Message from "./Message";
 
 const MessageContainer = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   return (
     <div className="w-full h-full overflow-auto ">
       <div className="flex items-center p-2 space-x-3 border-b border-primary">
@@ -67,6 +68,15 @@ const MessageContainer = () => {
             </div>
           </div>
         )}
+        <div className="flex flex-col"></div>
+        <Message />
+        <Message myMessage={true} />
+        <Message />
+        <Message myMessage={true} />
+        <Message />
+        <Message myMessage={true} />
+        <Message />
+        <Message />
       </div>
     </div>
   );
