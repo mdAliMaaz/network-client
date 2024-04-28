@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 
 interface MessageProps {
-  myMessage: boolean;
+  myMessage?: boolean;
 }
 const Message = ({ myMessage }: MessageProps) => {
   return (
     <div
       className={`p-1  rounded-sm  w-[28rem] my-2 flex  items-center   ${cn(
-        myMessage ? "ml-auto flex-row-reverse" : ""
+        myMessage && "ml-auto flex-row-reverse"
       )}`}
     >
       <div className="rounded-full size-10 p-[1px] border-primary border ">
