@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { CircleEllipsis, CircleUser, Copy, LogOut } from "lucide-react";
+import { CircleUser, LogOut, MessageCircleCode } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,13 +19,6 @@ const Hero = () => {
 
   const navigate = useNavigate();
   const toast = useToast();
-
-  const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const profileUrl: any = new URL(e.view.document.location.href);
-    navigator.clipboard
-      .writeText(profileUrl)
-      .then(() => toast("Copyed to clipboard"));
-  };
 
   async function handleLogout() {
     try {
@@ -82,23 +75,15 @@ const Hero = () => {
       </div>
       <div className="my-10">
         {user?.bio && <p>{user.bio}</p>}
-
         <div className="flex items-center justify-between">
           <div className="flex space-x-2 text-gray-500">
             <span>3.9k following</span>
             <span>8m followers</span>
           </div>
           <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <CircleEllipsis />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent onClick={handleCopy}>
-                <DropdownMenuItem className="flex items-center justify-between">
-                  Copy <Copy className="w-3 h-3" />
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link to={"/chat"}>
+              <MessageCircleCode className="size-7 text-primary" />
+            </Link>
           </div>
         </div>
       </div>

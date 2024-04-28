@@ -24,7 +24,7 @@ interface IUser {
   isFrozen: boolean;
 }
 
-const ProfilePage = () => {
+const EditProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 
   const toast = useToast();
@@ -200,4 +200,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default EditProfile;

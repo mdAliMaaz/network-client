@@ -107,7 +107,7 @@ const UserProfilePage = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <p className="text-gray-400/90">{currentUser?.bio}</p>
+          <p className="text-gray-400/90">{userByUsername?.bio}</p>
         </div>
         <div className="flex items-center space-x-5 text-gray-500 w-fit">
           <Badge className="text-gray-500 w-fit" variant={"outline"}>
