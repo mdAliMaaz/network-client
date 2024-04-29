@@ -8,6 +8,8 @@ import UserSkeleton from "./UserSkeleton";
 
 const ChatSideBar = () => {
   const { loading, conversations } = useGetConversation();
+
+
   return (
     <div className="w-[600px] p-1 h-full overflow-auto">
       <Button size={"sm"}>
@@ -22,12 +24,12 @@ const ChatSideBar = () => {
       {loading ? (
         <UserSkeleton />
       ) : (
-        conversations.map((item) => (
-          <ChatUserCard
-            key={item?._id}
-            name={item?.name}
-            userProfile={item?.profilePic?.url}
-          />
+        conversations?.map((item) => (
+          <ChatUserCard 
+          _id={item._id}
+          name={item?.name}
+          profilePic={item?.profilePic}
+          key={item._id} />
         ))
       )}
     </div>

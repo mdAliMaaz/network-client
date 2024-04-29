@@ -1,26 +1,32 @@
 import { BadgeCheck } from "lucide-react";
+import { conversationState } from "@/atoms/conversationAtom";
+import { useRecoilState } from "recoil";
+import { IUser } from "@/types";
 
+const ChatUserCard = (props: Partial<IUser>) => {
+  const [_, setConversation] = useRecoilState(conversationState);
 
-interface ChatUserProps {
-  userProfile: string;
-  name: string;
-  lastMessage?: string;
-}
-
-const ChatUserCard = ({ userProfile, name, lastMessage }: ChatUserProps) => {
+  function changeConversation() {
+    if(props){
+      setConversation(props);
+    }
+  }
   return (
-    <div className="p-1 my-2 transition-colors rounded-md cursor-pointer hover:bg-secondary">
+    <div
+      onClick={changeConversation}
+      className="p-1 my-2 transition-colors rounded-md cursor-pointer hover:bg-secondary"
+    >
       <div className="flex items-center space-x-3 space ">
         <div className="p-[1px] border rounded-full size-16 border-primary">
           <img
-            src={userProfile}
-            alt={name}
+            src={props?.profilePic?.url}
+            alt={props?.name}
             className="object-cover overflow-auto rounded-full"
           />
         </div>
         <div className="flex-1">
           <span className="flex items-center text-sm">
-            {name}{" "}
+            {props.name}{" "}
             <span className="mx-2">
               <BadgeCheck className="size-4 text-primary" />
             </span>

@@ -31,3 +31,10 @@ export interface IUser {
   bio: string;
   isFrozen: boolean;
 }
+
+export interface IMessage {
+  senderId: string;
+  receiverId: string;
+  _id: string;
+  message: string;
+}
