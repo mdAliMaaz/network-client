@@ -3,8 +3,11 @@ import { Button } from "../ui/button";
 import ChatUserCard from "./ChatUserCard";
 import UserSearch from "./UserSearch";
 import { Home } from "lucide-react";
+import { useGetConversation } from "@/hooks/useGetConversation";
+import UserSkeleton from "./UserSkeleton";
 
 const ChatSideBar = () => {
+  const { loading, conversations } = useGetConversation();
   return (
     <div className="w-[600px] p-1 h-full overflow-auto">
       <Button size={"sm"}>
@@ -16,9 +19,17 @@ const ChatSideBar = () => {
         Your Conversations
       </h1>
       <UserSearch />
-      <ChatUserCard />
-      <ChatUserCard />
-      <ChatUserCard />
+      {loading ? (
+        <UserSkeleton />
+      ) : (
+        conversations.map((item) => (
+          <ChatUserCard
+            key={item?._id}
+            name={item?.name}
+            userProfile={item?.profilePic?.url}
+          />
+        ))
+      )}
     </div>
   );
 };
