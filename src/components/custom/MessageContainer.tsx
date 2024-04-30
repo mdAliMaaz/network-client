@@ -1,9 +1,16 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { conversationState } from "@/atoms/conversationAtom";
 import Conversation from "./Conversation";
+import { messageState } from "@/atoms/messageAtom";
+import { useGetMessage } from "@/hooks/useGetMessages";
+import Message from "./Message";
+import { userState } from "@/atoms/userAtom";
 
 const MessageContainer = () => {
   const [conversation, _] = useRecoilState(conversationState);
+  const messages = useRecoilValue(messageState);
+  useGetMessage();
+  const user = useRecoilValue(userState);
 
   return (
     <div className="w-full h-full overflow-auto ">
@@ -15,6 +22,14 @@ const MessageContainer = () => {
             name={conversation?.name}
             profilePic={conversation?.profilePic?.url}
           />
+          {messages &&
+            messages?.map((item) => (
+              <Message
+                text={item.message}
+                key={item._id}
+                myMessage={user?._id === item?.senderId}
+              />
+            ))}
         </>
       )}
     </div>
@@ -23,6 +38,4 @@ const MessageContainer = () => {
 
 export default MessageContainer;
 
-{
-  /* <Message key={item} myMessage={item % 2 === 0 ? true : false} /> */
-}
+

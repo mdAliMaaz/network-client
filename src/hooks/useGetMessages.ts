@@ -1,32 +1,33 @@
+import { conversationState } from "@/atoms/conversationAtom";
 import { messageState } from "@/atoms/messageAtom";
 import { axios } from "@/axios";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export async function useGetMessage() {
-  const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [messages, setMessages] = useRecoilState(messageState);
+  const conversation = useRecoilValue(conversationState);
+  const [, setLoading] = useState(false);
+  const [, setMessages] = useRecoilState(messageState);
 
   useEffect(() => {
-    try {
-      setLoading(true);
-      if (userId !== "") {
-        (async function getMessages() {
-          const response = await axios.get(`/message/${userId}`, {
-            withCredentials: true,
-          });
-          setMessages(response.data);
-        })();
+    if (conversation !== null) {
+      try {
+        setLoading(true);
+        if (conversation) {
+          (async function getMessages() {
+            const response = await axios.get(`/message/${conversation?._id}`, {
+              withCredentials: true,
+            });
+            setMessages(response.data);
+          })();
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
-  }, [userId]);
-
-  return { messages, setMessages, setUserId, loading };
+  }, [conversation]);
 }

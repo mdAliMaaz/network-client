@@ -2,8 +2,9 @@ import { cn } from "@/lib/utils";
 
 interface MessageProps {
   myMessage?: boolean;
+  text:string
 }
-const Message = ({ myMessage }: MessageProps) => {
+const Message = ({ myMessage,text }: MessageProps) => {
   return (
     <div
       className={`p-1  rounded-sm  w-[28rem] my-2 flex  items-center   ${cn(
@@ -23,9 +24,7 @@ const Message = ({ myMessage }: MessageProps) => {
           myMessage ? "bg-primary text-white" : "bg-secondary"
         )}`}
       >
-        This is a message. This is a message. This is a message. This is a
-        message. This is a message. This is a message. This is a message. This
-        is a message.
+        {text}
       </p>
     </div>
   );
