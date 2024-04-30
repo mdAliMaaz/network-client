@@ -1,4 +1,6 @@
+import { conversationState } from "@/atoms/conversationAtom";
 import { cn } from "@/lib/utils";
+import { useRecoilState } from "recoil";
 
 interface MessageProps {
   myMessage: boolean;
@@ -6,6 +8,7 @@ interface MessageProps {
   senderProfile?: string;
 }
 const Message = ({ myMessage, text, senderProfile }: MessageProps) => {
+  const [conversation, _] = useRecoilState(conversationState);
   return (
     <div
       className={`p-1  rounded-sm  w-[28rem] my-2 flex  items-center   ${cn(
@@ -15,11 +18,7 @@ const Message = ({ myMessage, text, senderProfile }: MessageProps) => {
       <div className="rounded-full size-10 p-[1px] border-primary border ">
         <img
           className="w-full rounded-full"
-          src={
-            !myMessage
-              ? senderProfile
-              : "https://avatars.githubusercontent.com/u/130007307?v=4"
-          }
+          src={!myMessage ? senderProfile : conversation?.profilePic?.url}
           alt="user"
         />
       </div>
