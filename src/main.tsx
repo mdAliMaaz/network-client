@@ -7,14 +7,17 @@ import { Toaster } from "@/components/ui/sonner";
 import { RecoilRoot } from "recoil";
 import { Suspense } from "react";
 import LoadingSpinner from "./components/custom/LoadingSpinner.tsx";
+import { SocketContextProvider } from "./context/SocketContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RecoilRoot>
     <Suspense fallback={<LoadingSpinner />}>
       <BrowserRouter>
         <ThemeProvider defaultTheme="dark" storageKey="app-theme">
-          <App />
-          <Toaster />
+          <SocketContextProvider>
+            <App />
+            <Toaster />
+          </SocketContextProvider>
         </ThemeProvider>
       </BrowserRouter>
     </Suspense>
