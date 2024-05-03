@@ -33,7 +33,7 @@ const FeedCard = (props: FeedCardProps) => {
       <div className="w-full ">
         <div className="flex items-center p-2 space-x-3 ">
           <Link
-            to={`/user/${user?.username}`}
+            to={`/user/myProfile/${user?.username}`}
             className="border rounded-full border-primary p-[1px]"
           >
             <Avatar>

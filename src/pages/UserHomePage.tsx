@@ -13,7 +13,6 @@ import { useRecoilValue } from "recoil";
 const UserHomePage = () => {
   const user = useRecoilValue(userState);
   const posts = useRecoilValue<Array<IPost>>(postState);
-
   return (
     <Layout>
       <div className="flex items-center justify-center w-full p-2">

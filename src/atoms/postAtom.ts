@@ -1,5 +1,6 @@
 import { axios } from "@/axios";
 import { IPost } from "@/types";
+import { AxiosError } from "axios";
 import { atom, selector, selectorFamily } from "recoil";
 
 export const refreshPostsTriggerState = atom({
@@ -14,8 +15,13 @@ export const postState = selector<IPost[] | []>({
       get(refreshPostsTriggerState);
       const response = await axios.get("/posts", { withCredentials: true });
       return response.data.data;
-    } catch (err: any) {
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        if(err.status === 403){
+          localStorage.removeItem('network-user');
+          window.location.replace('/auth')
+        }
+      }
     }
   },
 });
