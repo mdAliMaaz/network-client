@@ -1,12 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useRecoilValue } from "recoil";
 import io, { Socket } from "socket.io-client";
-import { IUser } from "@/types"; 
 import { userState } from "@/atoms/userAtom";
 
 interface SocketContextType {
   socket: Socket | null;
-  onlineUsers: IUser[];
+  onlineUsers: string[];
 }
 
 const SocketContext = createContext<SocketContextType | null>(null);
@@ -25,7 +24,7 @@ export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [onlineUsers, setOnlineUsers] = useState<IUser[]>([]);
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const user = useRecoilValue(userState);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       setSocket(newSocket);
-      newSocket.on("getOnlineUsers", (users: IUser[]) => {
+      newSocket.on("getOnlineUsers", (users: string[]) => {
         setOnlineUsers(users);
       });
 

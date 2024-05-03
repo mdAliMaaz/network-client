@@ -1,15 +1,17 @@
+
 import { BadgeCheck } from "lucide-react";
 
 interface IConversation {
   name?: string;
   profilePic?: string;
+ 
 }
 
 const Conversation = ({ name, profilePic }: IConversation) => {
   return (
     <>
       <div className="flex items-center p-2 space-x-3 border-b border-primary">
-        <div className="p-[1px] border rounded-full size-16 border-primary">
+        <div className="p-[1px] border rounded-full size-16 border-primary ">
           <img
             src={profilePic}
             alt={name}

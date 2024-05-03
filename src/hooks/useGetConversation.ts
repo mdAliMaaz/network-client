@@ -12,7 +12,9 @@ export function useGetConversation() {
       setLoading(true);
       (async function getConversation() {
         const response = await axios.get("/users", { withCredentials: true });
-        setConversations(response.data);
+        if (response.data !== null) {
+          setConversations(response.data);
+        }
       })();
     } catch (error) {
       setLoading(false);
