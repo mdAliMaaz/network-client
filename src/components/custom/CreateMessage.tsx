@@ -26,7 +26,7 @@ const CreateMessage = () => {
       } catch (error) {
         setInput("");
         setLoading(false);
-        console.log("Error while while sending message", error);
+        console.log("Error while  sending message", error);
       } finally {
         setInput("");
         setLoading(false);
@@ -37,7 +37,7 @@ const CreateMessage = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="absolute bottom-0 flex items-center w-full p-2 space-x-1"
+      className="sticky flex items-center w-full p-2 space-x-1"
     >
       <Input
         placeholder="Message"

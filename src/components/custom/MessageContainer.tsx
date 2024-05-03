@@ -17,7 +17,7 @@ const MessageContainer = () => {
   useListenToMessages();
 
   return (
-    <div className="relative w-full h-full overflow-auto">
+    <div className="w-full h-full overflow-y-auto ">
       {!conversation ? (
         <div>Select a conversation</div>
       ) : (
@@ -38,7 +38,9 @@ const MessageContainer = () => {
               />
             ))
           )}
-          <CreateMessage />
+          <div className="relative bottom-0 w-full">
+            <CreateMessage />
+          </div>
         </>
       )}
     </div>
