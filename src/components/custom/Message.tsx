@@ -6,13 +6,15 @@ interface MessageProps {
   myMessage: boolean;
   text: string;
   senderProfile?: string;
+  shake?: boolean;
 }
-const Message = ({ myMessage, text, senderProfile }: MessageProps) => {
+const Message = ({ myMessage, text, senderProfile, shake }: MessageProps) => {
   const [conversation, _] = useRecoilState(conversationState);
   return (
     <div
       className={`p-1  rounded-sm  w-[28rem] my-2 flex  items-center   ${cn(
-        myMessage && "ml-auto flex-row-reverse"
+        myMessage && "ml-auto flex-row-reverse",
+        shake && "shake"
       )}`}
     >
       <div className="rounded-full size-10 p-[1px] border-primary border ">

@@ -35,6 +35,7 @@ const MessageContainer = () => {
                 text={item.message}
                 key={item._id}
                 myMessage={user?._id === item?.senderId}
+                shake = {item?.shouldShake}
               />
             ))
           )}

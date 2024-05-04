@@ -6,11 +6,13 @@ import { conversationState } from "@/atoms/conversationAtom";
 import { useRecoilState } from "recoil";
 import Loading from "./Loading";
 import { axios } from "@/axios";
+import { messageState } from "@/atoms/messageAtom";
 
 const CreateMessage = () => {
   const [conversation, _] = useRecoilState(conversationState);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useRecoilState(messageState);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const CreateMessage = () => {
           { message: input },
           { withCredentials: true }
         );
+        setMessages((prev) => [...prev, response.data]);
       } catch (error) {
         setInput("");
         setLoading(false);

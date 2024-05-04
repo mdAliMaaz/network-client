@@ -40,30 +40,29 @@ export function LoginForm() {
     setInput({ ...input, [e.target.name]: e.target.value });
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
 
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/users/signin", input, {
-        withCredentials: true,
-      });
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
 
-      if (data?.message) {
-        localStorage.setItem("network-user", JSON.stringify(data?.data));
-        setLoading(false);
-        setUser(data?.data);
-        toast(data?.message);
-        navigate(`/`);
-      }
-    } catch (error: unknown) {
+  try {
+    setLoading(true);
+    const { data } = await axios.post("/users/signin", input);
+
+    if (data?.message) {
+      localStorage.setItem("network-user", JSON.stringify(data?.data));
       setLoading(false);
+      setUser(data?.data);
+      toast(data?.message);
+      navigate(`/`);
+    }
+  } catch (error: unknown) {
+    setLoading(false);
 
-      if (error instanceof AxiosError) {
-        toast(error.response?.data?.error);
-      }
+    if (error instanceof AxiosError) {
+      toast(error.response?.data?.error);
     }
   }
+}
   return (
     <form className="w-full max-w-sm m-auto" onSubmit={handleSubmit}>
       <Card className="w-full max-w-sm m-auto">

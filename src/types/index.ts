@@ -37,4 +37,5 @@ export interface IMessage {
   receiverId: string;
   _id: string;
   message: string;
+  shouldShake?: boolean;
 }
